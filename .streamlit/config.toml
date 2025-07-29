@@ -1,0 +1,9 @@
+[general]
+dataFrameSerialization = "legacy"
+
+[server]
+headless = true
+enableCORS = false
+enableXsrfProtection = false
+port = 7860
+runOnSave = true
