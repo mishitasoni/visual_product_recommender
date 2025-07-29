@@ -166,8 +166,11 @@ if uploaded:
 
         matched = []
         for dist, idx in zip(D[0], I[0]):
+            st.write("🔍 Query match for:", image_paths[idx])
+
             img_path = os.path.normpath(os.path.join(project_root, image_paths[idx]))
-            row = metadata[metadata["path"].apply(lambda x: os.path.normpath(os.path.join(project_root, x))) == img_path]
+            row = metadata[metadata["path"] == image_paths[idx]]
+
             if not row.empty:
                 row = row.copy()
                 row["visual_score"] = 1 - dist  # higher is better
