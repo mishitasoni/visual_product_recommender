@@ -164,25 +164,31 @@ if uploaded:
         query_vec = embed_image(img)
         D, I = index.search(query_vec, 20)  # top-20 for reranking flexibility
 
-    matched = []
-    for dist, idx in zip(D[0], I[0]):
-        st.write("🔍 Query match for:", image_paths[idx])
+        matched = []
 
-        matched_path = image_paths[idx].replace("\\", "/")
-        row = metadata[metadata["path"].str.replace("\\", "/") == matched_path]
+        # Normalize metadata paths once for all
+        metadata["normalized_path"] = metadata["path"].apply(lambda p: os.path.normpath(p).replace("\\", "/").lower())
 
-        if not row.empty:
-            row = row.copy()
-            row["visual_score"] = 1 - dist
-            matched.append(row)
+        for dist, idx in zip(D[0], I[0]):
+            matched_path = os.path.normpath(image_paths[idx]).replace("\\", "/").lower()
 
+            # Debug print
+            st.write("🔍 Query match for:", matched_path)
+
+            # Match using normalized path
+            row = metadata[metadata["normalized_path"] == matched_path]
+
+            if not row.empty:
+                row = row.copy()
+                row["visual_score"] = 1 - dist
+                matched.append(row)
 
         if not matched:
             st.warning("⚠️ No similar items found.")
         else:
             result_df = pd.concat(matched, ignore_index=True)
 
-            # Filters
+            # Apply sidebar filters
             if materials:
                 result_df = result_df[result_df["material"].isin(materials)]
             if vendors:
@@ -190,7 +196,6 @@ if uploaded:
             if categories:
                 result_df = result_df[result_df["category"].isin(categories)]
 
-            # Final ranking
             if result_df.empty:
                 st.warning("⚠️ No matches after filtering.")
             else:
@@ -215,5 +220,6 @@ if uploaded:
 
     except Exception as e:
         st.error(f"Error processing image: {e}")
+
 else:
     st.info("📎 Please upload an image to start.")
