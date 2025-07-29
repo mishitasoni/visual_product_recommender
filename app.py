@@ -206,7 +206,7 @@ if uploaded:
 
                 for i, (_, info) in enumerate(result_df.iterrows()):
                     with cols[i]:
-                        img_path = os.path.normpath(info["path"])
+                        img_path = info["path"].replace("\\", "/")
                         if os.path.exists(img_path):
                             st.image(img_path, caption=f"{info['category']} ({info['image_name']})", use_container_width=True)
                         else:
