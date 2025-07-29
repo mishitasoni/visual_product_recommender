@@ -172,9 +172,6 @@ if uploaded:
         for dist, idx in zip(D[0], I[0]):
             matched_path = os.path.normpath(image_paths[idx]).replace("\\", "/").lower()
 
-            # Debug print
-            st.write("🔍 Query match for:", matched_path)
-
             # Match using normalized path
             row = metadata[metadata["normalized_path"] == matched_path]
 
@@ -209,7 +206,7 @@ if uploaded:
 
                 for i, (_, info) in enumerate(result_df.iterrows()):
                     with cols[i]:
-                        img_path = os.path.normpath(os.path.join(project_root, info["path"]))
+                        img_path = os.path.normpath(info["path"])
                         if os.path.exists(img_path):
                             st.image(img_path, caption=f"{info['category']} ({info['image_name']})", use_container_width=True)
                         else:
