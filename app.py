@@ -14,7 +14,8 @@ client = OpenAI(
 )
 
 # --- Config ---
-project_root = "C:/Users/mishs/Downloads/VisualProductRecommendor"
+project_root = "."
+
 IMAGE_PATHS = os.path.join(project_root, "embeddings/image_paths.json")
 EMBEDDINGS_PATH = os.path.join(project_root, "embeddings/dino_aug_embeddings.npy")
 INDEX_PATH = os.path.join(project_root, "embeddings/all_embeddings_index.faiss")
