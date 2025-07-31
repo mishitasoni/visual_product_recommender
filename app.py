@@ -74,6 +74,7 @@ def rerank_with_gpt(prompt, items_df, top_n=5):
         category = row.get("category", "")
         material = row.get("material", "")
         type_ = row.get("type", "")
+        score_str="N/A"
 
         try:
             # LLM call
