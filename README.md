@@ -65,7 +65,7 @@ VisualProductRecommendor/
 📦 Installation
 🔧 1. Clone the repository
 
-git clone https://github.com/your-username/VisualProductRecommendor.git
+git clone https://github.com/mishitasoni/VisualProductRecommendor.git
 cd VisualProductRecommendor
 
 📄 2. Create secrets.toml
